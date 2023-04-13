@@ -34,6 +34,8 @@ jobs:
       - name: Extra Step for Installing Playwright Browser Dependencies
         run: npx playwright install-deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
+      - name: Run Playwright E2E tests
+        run: npm run test:e2e
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
