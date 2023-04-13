@@ -1,12 +1,11 @@
 name: Build and Test
 on: [push, pull_request]
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         version: [ 18 ]
-    
     steps:
       - name: Checkout Project Repository
         uses: actions/checkout@v3
@@ -50,7 +49,7 @@ jobs:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
     if: "success() || needs.test.result == 'failure'"
-    needs: [test]
+    needs: [build-and-test]
     runs-on: ubuntu-latest
     continue-on-error: true
     env:
