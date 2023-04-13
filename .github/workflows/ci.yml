@@ -11,36 +11,29 @@ jobs:
         with:
           node-version: 18
           cache: npm
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+      - name: Check for Playwright browsers cache
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Lint
         run: npm run lint
       - name: Run Component Tests
         run: npm run test
-      - name: Store Playwright's Version
-        run: |
-          PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')
-          echo "Playwright's Version: $PLAYWRIGHT_VERSION"
-          echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
-      - name: Cache Playwright Browsers for Playwright's Version
-        id: cache-playwright-browsers
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Setup Playwright
-        if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Extra Playwright Browser dep
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      # https://lauracleveland.com/playwright/
+      - name: Extra Step for Installing Playwright Browser Dependencies
         run: npx playwright install-deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-      - name: Run E2E Playwright Tests
-        run: npm run test:e2e
-      - name: Upload Playwright Test Report File
-        uses: actions/upload-artifact@v3
-        with:
-          name: playwright-report
-          path: test-results
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
