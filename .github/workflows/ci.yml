@@ -44,7 +44,7 @@ jobs:
         if: always()
         with:
           name: playwright-test-results
-          path: test-results/
+          path: playwright-report/
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
