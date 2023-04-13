@@ -36,6 +36,12 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
       - name: Run Playwright E2E tests
         run: npm run test:e2e
+      - name: Upload Playwright Report as Artifact
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: playwright-test-results
+          path: playwright-report/
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
