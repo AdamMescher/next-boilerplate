@@ -2,10 +2,11 @@ name: Build & Deploy
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 16, 18 ]
+        os: [ubuntu-latest]
+        node: [ 16, 18 ]
+    runs-on: ${{ matrix.os }}
     steps:
       -name: Checkout Project Repository
       uses: actions/checkout@v3
