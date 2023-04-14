@@ -26,7 +26,13 @@ jobs:
       - name: Run Lint
         run: npm run lint
       - name: Run Component Tests
-        run: npm run test
+        run: npm run test:coverage
+      - name: Generage coverage reports via vitest
+        run: npm run coverage
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
