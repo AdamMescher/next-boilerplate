@@ -22,6 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body>{children}</body>
       <Script
+        id="cookieyes-consent-banner"
+        strategy="afterInteractive"       
+        src={`https://cdn-cookieyes.com/client_data/${process.env.COOKIEYES_WEBSITE_KEY}/script.js`}>
+      </Script>
+      <Script
         id="google-tag-manager"
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_MEASUREMENT_ID}`}
