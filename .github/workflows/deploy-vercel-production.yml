@@ -5,7 +5,8 @@ env:
 on:
   workflow_run:
      workflows: ["Build and Test"]
-     types: [completed] #requested
+     types: [completed]
+     branches: [main]
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest

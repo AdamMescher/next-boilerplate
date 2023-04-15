@@ -6,9 +6,7 @@ on:
   workflow_run:
     workflows: ["Build and Test"]
     types: [completed] #requested
-    branches-ignore:
-      - main
-      - gh-pages
+    branches-ignore: [main, gh-pages]
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
