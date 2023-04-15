@@ -52,6 +52,7 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
