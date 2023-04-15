@@ -1,9 +1,13 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+const React = require('react');
+const ReactDOM = require('react-dom');
 import Script from 'next/script';
 import './styles/globals.scss';
 
-if (process.env.NODE_ENV !== 'production') {
+if (
+  typeof window !== 'undefined' &&
+  process.env.NODE_ENV !== 'production'
+) {
+  console.log('FIRED LAYOUT')
   const axe = require('@axe-core/react');
   axe(React, ReactDOM, 1000);
 }
