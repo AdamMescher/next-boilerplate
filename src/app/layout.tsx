@@ -22,25 +22,30 @@ export default function RootLayout({
     <html lang="en">
       <body>{children}</body>
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-78D05H3MVV"
+        id="google-tag-manager"
         strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_MEASUREMENT_ID}`}
       />
-      <Script id="google-analytics" strategy="afterInteractive">
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-78D05H3MVV');
+          gtag('config', '${process.env.GA_MEASUREMENT_ID}}');
         `}
       </Script>
-      <Script id="microsoft-clarity" strategy="afterInteractive">
+      <Script
+        id="microsoft-clarity"
+        strategy="afterInteractive">
         {`
           (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "goljbdz1gd");
+          })(window, document, "clarity", "script", "${process.env.MS_CLARITY_PROJECT_ID}");
         `}
       </Script>
     </html>
